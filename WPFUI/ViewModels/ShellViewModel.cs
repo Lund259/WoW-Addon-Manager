@@ -21,16 +21,35 @@ namespace WPFUI.ViewModels
         private AddonsControllerFactory addonControllerFactory = new AddonsControllerFactory();
         private IAddonController addonController;
 
-        private BindableCollection<IAddonInfo> _addons = new BindableCollection<IAddonInfo>();
-        public BindableCollection<IAddonInfo> Addons
+        private IEnumerable<IAddonInfo> _addons = new BindableCollection<IAddonInfo>();
+        private string _searchTerm;
+
+        public IEnumerable<IAddonInfo> Addons
         {
-            get { return _addons; }
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(SearchTerm))
+                    return _addons.Where(addon => addon.Title.ToLower().Contains(SearchTerm.ToLower()));
+
+                return _addons;
+            }
             set
             {
                 _addons = value;
                 NotifyOfPropertyChange(() => Addons);
             }
         }
+
+        public string SearchTerm
+        {
+            get { return _searchTerm; }
+            set
+            {
+                _searchTerm = value;
+                NotifyOfPropertyChange(() => Addons);
+            }
+        }
+
 
         public ShellViewModel()
         {

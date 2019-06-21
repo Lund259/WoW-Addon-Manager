@@ -35,6 +35,10 @@
         <!-- ROW 1 -->
         
         <Button Grid.Column="1" Grid.Row="1" x:Name="LoadAddons">Load addons</Button>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
+            <TextBlock Text="Search: "/>
+            <TextBox x:Name="SearchTerm" MinWidth="250" />
+        </StackPanel>
 
         <!-- ROW 2 -->
 
