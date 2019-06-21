@@ -47,8 +47,15 @@ namespace WPFUI.ViewModels
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                var addons = addonController.GetAddons($@"{folderDialog.SelectedPath}\interface\addons");
-                Addons = new BindableCollection<IAddonInfo>(addons);
+                try
+                {
+                    var addons = addonController.GetAddons($@"{folderDialog.SelectedPath}\interface\addons");
+                    Addons = new BindableCollection<IAddonInfo>(addons);
+                }
+                catch (Exception)
+                {
+                    System.Windows.MessageBox.Show($"\"{folderDialog.SelectedPath}\" is not a valid World of Warcraft root folder.");
+                }
             }
         }
     }

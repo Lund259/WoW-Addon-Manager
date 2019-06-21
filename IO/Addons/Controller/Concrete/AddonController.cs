@@ -23,9 +23,15 @@ namespace IO.Addons.Controller.Concrete
 
         public List<IAddonInfo> GetAddons(string folderPath)
         {
-            var metadata = addonIO.GetMetaData(folderPath);
-
-            return objectBuilder.GetAddonInfo(metadata);
+            try
+            {
+                var metadata = addonIO.GetMetaData(folderPath);
+                return objectBuilder.GetAddonInfo(metadata);
+            }
+            catch (Exception)
+            {
+                throw new Exception($"The provided folder: {folderPath} is invalid");
+            }
         }
     }
 }
