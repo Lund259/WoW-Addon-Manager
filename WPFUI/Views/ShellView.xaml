@@ -4,10 +4,113 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFUI.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        TextElement.FontWeight="Medium"
+        TextElement.FontSize="14"
+        FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
         mc:Ignorable="d"
-        Title="WoW Addon Manager" Height="450" Width="800"
-        FontFamily="Segoe UI Light" FontSize="16">
+        WindowStyle="ToolWindow"
+        Title="WoW Addon Manager" Height="450" Width="800">
+
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <materialDesign:DrawerHost Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" VerticalAlignment="Top" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+
+
+                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Margin="4" Grid.Row="0" Grid.Column="0">
+
+                    <materialDesign:PackIcon Kind="Menu" />
+                </Button>
+            </Grid>
+
+            <materialDesign:DrawerHost.LeftDrawerContent>
+                <StackPanel Grid.Row="1" Grid.Column="0">
+                    <TextBlock Margin="4" HorizontalAlignment="Center">Menu</TextBlock>
+
+                    <MenuItem Header="Addons" cal:Message.Attach="LoadAddonsView">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="PackageVariant"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Settings" cal:Message.Attach="LoadSettingsView">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Settings"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="About">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="About"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Close Menu" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Close"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </StackPanel>
+            </materialDesign:DrawerHost.LeftDrawerContent>
+        </materialDesign:DrawerHost>
+
+
+        <ContentControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" x:Name="ActiveItem"/>
+    </Grid>
+
+
+    
+        
+        
+        <!--
+    
+            <Menu IsMainMenu="True">
+            <MenuItem Header="Addons" cal:Message.Attach="LoadAddonsView">
+                <MenuItem.Icon>
+                    <materialDesign:PackIcon Kind="PackageVariant"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="Settings" cal:Message.Attach="LoadSettingsView">
+                <MenuItem.Icon>
+                    <materialDesign:PackIcon Kind="Settings"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator />
+            <MenuItem Header="About">
+                <MenuItem.Icon>
+                    <materialDesign:PackIcon Kind="About"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+    
+    
+    
+    
+    
+    
+    
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
             <ColumnDefinition Width="auto" />
@@ -20,37 +123,14 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
+
         
-        <Grid.Resources>
-            <Style x:Key="DefaultStyle" TargetType="{x:Type FrameworkElement}">
-                <Setter Property="Margin" Value="5" />
-            </Style>
-            
-            <Style TargetType="TextBox" BasedOn="{StaticResource DefaultStyle}" />
-            <Style TargetType="TextBlock" BasedOn="{StaticResource DefaultStyle}" />
-            <Style TargetType="Button" BasedOn="{StaticResource DefaultStyle}" />
-            <Style TargetType="ComboBox" BasedOn="{StaticResource DefaultStyle}" />
-        </Grid.Resources>
-
-        <!-- ROW 1 -->
         
-        <Button Grid.Column="1" Grid.Row="1" x:Name="LoadAddons">Load addons</Button>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
-            <TextBlock Text="Search: "/>
-            <TextBox x:Name="SearchTerm" MinWidth="250" />
-        </StackPanel>
+        
+        
+        <Button Grid.Row="1" Grid.Column="1" x:Name="LoadAddonsView">Load Addons</Button>
+        <Button Grid.Row="1" Grid.Column="2" x:Name="LoadSettingsView">Load Settings</Button>
 
-        <!-- ROW 2 -->
-
-        <DataGrid x:Name="Addons" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
-                  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" />
-                <DataGridTextColumn Header="Author" Binding="{Binding Path=Author}" Width="150"/>
-                <DataGridTextColumn Header="WoW Interface" Binding="{Binding Path=Interface}" />
-                <DataGridHyperlinkColumn Header="Website" Binding="{Binding Path=Website}" />
-                <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" />
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+         ROW 2 
+        -->
 </Window>
