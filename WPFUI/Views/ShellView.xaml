@@ -14,9 +14,21 @@
         mc:Ignorable="d"
         WindowStyle="ToolWindow"
         Title="WoW Addon Manager" Height="450" Width="800">
+    
+    <Window.CommandBindings>
+    </Window.CommandBindings>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
 
     <Grid>
-        <Grid.ColumnDefinitions>
+        <!--<Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
@@ -26,111 +38,79 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
-        <materialDesign:DrawerHost Grid.Column="0" Grid.Row="0" Grid.RowSpan="5" VerticalAlignment="Top" >
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-
-
-                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Margin="4" Grid.Row="0" Grid.Column="0">
-
-                    <materialDesign:PackIcon Kind="Menu" />
-                </Button>
-            </Grid>
-
+        <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent>
-                <StackPanel Grid.Row="1" Grid.Column="0">
-                    <TextBlock Margin="4" HorizontalAlignment="Center">Menu</TextBlock>
+                <DockPanel MinWidth="212">
+                    <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
+                                DockPanel.Dock="Top"
+                                HorizontalAlignment="Right" Margin="16"
+                                IsChecked="{Binding ElementName=MenuToggleButton, Path=IsChecked, Mode=TwoWay}" />
 
-                    <MenuItem Header="Addons" cal:Message.Attach="LoadAddonsView">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="PackageVariant"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Settings" cal:Message.Attach="LoadSettingsView">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Settings"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="About">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="About"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Close Menu" Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}">
-                        <MenuItem.Icon>
-                            <materialDesign:PackIcon Kind="Close"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </StackPanel>
+
+                    <ListBox Margin="0 16 0 16" SelectedIndex="0" 
+                             ItemsSource="{Binding Pages}" SelectedValue="{Binding CurrentPage}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        
+                    <!--<TextBlock Margin="32 0 32 0" cal:Message.Attach="Save">
+                        <materialDesign:PackIcon Kind="PackageVariant" />
+                            Addons
+                        </TextBlock>
+                        <TextBlock Margin="32 0 32 0" cal:Message.Attach="Save">
+                            <materialDesign:PackIcon Kind="Settings" />
+                                Settings
+                            </TextBlock>
+                        <TextBlock Margin="32 0 32 0" cal:Message.Attach="Save">
+                            <materialDesign:PackIcon Kind="About" />
+                                About
+                            </TextBlock>
+                        <TextBlock Margin="32 0 32 0" cal:Message.Attach="Save">
+                            <materialDesign:PackIcon Kind="ExitToApp" />
+                                Exit
+                    </TextBlock>-->
+                    </ListBox>
+
+                </DockPanel>
             </materialDesign:DrawerHost.LeftDrawerContent>
+            <DockPanel>
+                <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                        Mode="PrimaryMid" DockPanel.Dock="Top">
+                    <DockPanel>
+
+                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                    x:Name="MenuToggleButton"/>
+
+                        <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                        </materialDesign:PopupBox>-->
+                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">WoW Addon Manager</TextBlock>
+
+                    </DockPanel>
+                </materialDesign:ColorZone>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                        
+                <ContentControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" x:Name="ActiveItem"/>
+
+                <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}" x:Name="MainSnackbar"
+                                        Grid.Row="1" />
+                </Grid>
+            </DockPanel>
         </materialDesign:DrawerHost>
 
 
-        <ContentControl Grid.Column="1" Grid.Row="1" Grid.RowSpan="4" x:Name="ActiveItem"/>
+
+
+
+
     </Grid>
 
-
-    
-        
-        
-        <!--
-    
-            <Menu IsMainMenu="True">
-            <MenuItem Header="Addons" cal:Message.Attach="LoadAddonsView">
-                <MenuItem.Icon>
-                    <materialDesign:PackIcon Kind="PackageVariant"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator />
-            <MenuItem Header="Settings" cal:Message.Attach="LoadSettingsView">
-                <MenuItem.Icon>
-                    <materialDesign:PackIcon Kind="Settings"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <Separator />
-            <MenuItem Header="About">
-                <MenuItem.Icon>
-                    <materialDesign:PackIcon Kind="About"/>
-                </MenuItem.Icon>
-            </MenuItem>
-        </Menu>
-    
-    
-    
-    
-    
-    
-    
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="20" />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="20" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="20" />
-        </Grid.RowDefinitions>
-
-        
-        
-        
-        
-        <Button Grid.Row="1" Grid.Column="1" x:Name="LoadAddonsView">Load Addons</Button>
-        <Button Grid.Row="1" Grid.Column="2" x:Name="LoadSettingsView">Load Settings</Button>
-
-         ROW 2 
-        -->
 </Window>

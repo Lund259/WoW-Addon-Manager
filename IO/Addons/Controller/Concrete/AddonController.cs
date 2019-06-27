@@ -28,9 +28,9 @@ namespace IO.Addons.Controller.Concrete
                 var metadata = addonIO.GetMetaData(folderPath);
                 return objectBuilder.GetAddonInfo(metadata);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new Exception($"The provided folder: {folderPath} is invalid");
+                throw new Exception($"The provided folder: {folderPath} is invalid", ex);
             }
         }
     }

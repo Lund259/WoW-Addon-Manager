@@ -4,28 +4,46 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WPFUI.Models;
 using IO.Addons.Controller;
 using IO.Addons.Models;
 using IO.General;
 using System.IO;
 using System.Windows;
 using Microsoft.Win32;
-using System.Windows.Forms;
+using Screen = Caliburn.Micro.Screen;
+using WPFUI.Models;
 
 namespace WPFUI.ViewModels
 {
     public class ShellViewModel : Conductor<IScreen>
     {
+        public Page[] Pages { get; set; }
 
-        public void LoadAddonsView()
+
+        private Page _currentPage;
+
+        public Page CurrentPage
         {
-            ActivateItem(new AddonsViewModel());
+            get { return _currentPage; }
+            set
+            {
+                _currentPage = value;
+                LoadView();
+            }
         }
 
-        public void LoadSettingsView()
+
+
+        public ShellViewModel()
         {
-            ActivateItem(new SettingsViewModel());
+            Pages = new Page[] { new Page("Addons", new AddonsViewModel()), new Page("Settings", new SettingsViewModel())};
+            CurrentPage = Pages[0];
         }
+
+        public void LoadView()
+        {
+            ActivateItem(CurrentPage.Screen);
+        }
+
     }
 }
