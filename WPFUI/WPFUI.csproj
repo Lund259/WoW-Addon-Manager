@@ -80,10 +80,14 @@
     </Compile>
     <Compile Include="Models\Page.cs" />
     <Compile Include="ViewModels\AddonsViewModel.cs" />
+    <Compile Include="ViewModels\Command.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AddonsView.xaml.cs">
       <DependentUpon>AddonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPrompt.xaml.cs">
+      <DependentUpon>SettingsPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -122,6 +126,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AddonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

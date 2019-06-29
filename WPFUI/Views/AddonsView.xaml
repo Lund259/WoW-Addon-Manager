@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WPFUI.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
              Background="{DynamicResource MaterialDesignPaper}"
@@ -11,6 +12,7 @@
              TextElement.FontSize="14"
              FontFamily="pack://application:,,,/MaterialDesignThemes.Wpf;component/Resources/Roboto/#Roboto"
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20" />
@@ -25,12 +27,26 @@
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
 
+
+        <!-- DIALOG -->
+        <materialDesign:DialogHost
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              IsOpen="{Binding ShowSettingsPrompt, Mode=OneWay}"
+              DialogContent="{Binding SettingsPrompt}"
+              CloseOnClickAway="False"
+              Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="400">
+
+
+        </materialDesign:DialogHost>
+
+
         <!-- ROW 1 -->
 
-        <Button Grid.Column="1" Grid.Row="1" x:Name="LoadAddons">Load addons</Button>
         <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
-            <TextBlock Text="Search: " VerticalAlignment="Center"/>
-            <TextBox x:Name="SearchTerm" MinWidth="200" VerticalAlignment="Center"/>
+            <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+                     x:Name="SearchTerm" 
+                     MinWidth="250" VerticalAlignment="Center"/>
         </StackPanel>
 
         <!-- ROW 2 -->
@@ -46,4 +62,5 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
+
 </UserControl>

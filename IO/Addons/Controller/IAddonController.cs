@@ -10,5 +10,7 @@ namespace IO.Addons.Controller
     public interface IAddonController
     {
         List<IAddonInfo> GetAddons(string folderPath);
+
+        string GetAddonFolderPath(string rootFolder);
     }
 }

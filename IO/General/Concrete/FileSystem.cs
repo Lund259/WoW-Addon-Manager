@@ -10,6 +10,11 @@ namespace IO.General.Concrete
 {
     class FileSystem : IFileSystem
     {
+        public bool DirectoryExists(string path)
+        {
+            return Directory.Exists(path);
+        }
+
         public bool DirectoryIsValid(string path)
         {
             Uri pathUri;

@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Screen = Caliburn.Micro.Screen;
 
 namespace WPFUI.ViewModels
 {
@@ -16,8 +14,20 @@ namespace WPFUI.ViewModels
         private AddonsControllerFactory addonControllerFactory = new AddonsControllerFactory();
         private IAddonController addonController;
 
-        private IEnumerable<IAddonInfo> _addons = new BindableCollection<IAddonInfo>();
+        private IEnumerable<IAddonInfo> _addons;
         private string _searchTerm;
+
+        public bool ShowSettingsPrompt
+        {
+            get
+            {
+                return string.IsNullOrWhiteSpace(Properties.Settings.Default.AddonFolder);
+
+                
+            }
+        }
+
+        public object SettingsPrompt { get; set; }
 
         public IEnumerable<IAddonInfo> Addons
         {
@@ -47,31 +57,33 @@ namespace WPFUI.ViewModels
 
         public AddonsViewModel()
         {
+            //testing
+            Properties.Settings.Default.Reset();
+            
             addonController = addonControllerFactory.CreateAddonController();
+
+            SettingsPrompt = new Views.SettingsPrompt();
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            if (!ShowSettingsPrompt && Addons == null)
+                LoadAddons();
         }
 
         public void LoadAddons()
         {
-            FolderBrowserDialog folderDialog = new FolderBrowserDialog();
-            folderDialog.ShowNewFolderButton = false;
-            folderDialog.RootFolder = Environment.SpecialFolder.MyComputer;
-            folderDialog.Description = "Select the root folder of your World of Warcraft installation.";
-
-
-            if (folderDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                try
-                {
-                    var addons = addonController.GetAddons($@"{folderDialog.SelectedPath}\interface\addons");
-                    Addons = new BindableCollection<IAddonInfo>(addons);
-                }
-                catch (Exception)
-                {
-                    System.Windows.MessageBox.Show($"\"{folderDialog.SelectedPath}\" is not a valid World of Warcraft root folder.");
-                }
+                var addons = addonController.GetAddons(Properties.Settings.Default.AddonFolder);
+                Addons = new BindableCollection<IAddonInfo>(addons);
+            }
+            catch (Exception)
+            {
+                System.Windows.MessageBox.Show($"\"{Properties.Settings.Default.AddonFolder}\" is not a valid World of Warcraft root folder.");
             }
         }
-
-
     }
 }

@@ -28,6 +28,7 @@ namespace WPFUI.ViewModels
             set
             {
                 _currentPage = value;
+                NotifyOfPropertyChange(() => CurrentPage);
                 LoadView();
             }
         }

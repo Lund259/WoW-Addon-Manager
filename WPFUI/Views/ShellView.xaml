@@ -81,16 +81,22 @@
             <DockPanel>
                 <materialDesign:ColorZone Padding="16" materialDesign:ShadowAssist.ShadowDepth="Depth2"
                                         Mode="PrimaryMid" DockPanel.Dock="Top">
-                    <DockPanel>
-
-                        <ToggleButton Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
-                                    x:Name="MenuToggleButton"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ToggleButton Grid.Column="0" Style="{StaticResource MaterialDesignHamburgerToggleButton}" IsChecked="False"
+                                    x:Name="MenuToggleButton" HorizontalAlignment="Left"/>
 
                         <!--<materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
                         </materialDesign:PopupBox>-->
-                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22">WoW Addon Manager</TextBlock>
+                        <TextBlock Grid.Column="0" Grid.ColumnSpan="2" x:Name="CurrentPage_Name" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"/>
 
-                    </DockPanel>
+                    </Grid>
+
+
+                    
                 </materialDesign:ColorZone>
                 <Grid>
                     <Grid.RowDefinitions>
