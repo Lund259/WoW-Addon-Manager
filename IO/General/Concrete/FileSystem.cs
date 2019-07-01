@@ -10,6 +10,18 @@ namespace IO.General.Concrete
 {
     class FileSystem : IFileSystem
     {
+        public void DeleteDirectory(string directoryPath)
+        {
+            if (DirectoryExists(directoryPath))
+            {
+                Directory.Delete(directoryPath, true);
+            }
+            else
+            {
+                throw new Exception($"{directoryPath} is not a valid directory.");
+            }
+        }
+
         public bool DirectoryExists(string path)
         {
             return Directory.Exists(path);

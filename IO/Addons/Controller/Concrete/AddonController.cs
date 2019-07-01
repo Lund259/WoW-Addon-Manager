@@ -24,7 +24,7 @@ namespace IO.Addons.Controller.Concrete
             fileSystem = new GeneralFactory().CreateFileSystem();
         }
 
-        public string GetAddonFolderPath(string rootFolder)
+        public string GetAddonsFolderPath(string rootFolder)
         {
             string addonsPath = $"{rootFolder}\\Interface\\Addons";
 
@@ -45,6 +45,17 @@ namespace IO.Addons.Controller.Concrete
             {
                 throw new Exception($"The provided folder: {folderPath} is invalid", ex);
             }
+        }
+
+        public void RemoveAddon(IAddonInfo addon)
+        {
+            //Maybe look at dependencies and remove them as well? (Could be a setting)
+            fileSystem.DeleteDirectory(addon.DirectoryPath);
+        }
+
+        public void AddAddon()
+        {
+            throw new NotImplementedException();
         }
     }
 }

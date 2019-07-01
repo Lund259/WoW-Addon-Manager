@@ -43,16 +43,22 @@
 
         <!-- ROW 1 -->
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right">
-            <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
-                     x:Name="SearchTerm" 
-                     MinWidth="250" VerticalAlignment="Center"/>
-        </StackPanel>
+
+        <Button Grid.Row="1" Grid.Column="1"
+                CommandParameter="{Binding ElementName=Addons, Path=SelectedItems}"
+                Command="{Binding RemoveAddonsCommand}">
+            Remove Addons
+        </Button>
+        <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
+            x:Name="SearchTerm" Grid.Row="1" Grid.Column="2"
+            MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+        
 
         <!-- ROW 2 -->
 
         <DataGrid x:Name="Addons" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
-                  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True">
+                  AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Extended"
+                  CanUserAddRows="False" CanUserDeleteRows="False" SelectionUnit="FullRow">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" />
                 <DataGridTextColumn Header="Author" Binding="{Binding Path=Author}" Width="150"/>

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WPFUI.ViewModels
 {
@@ -14,27 +15,27 @@ namespace WPFUI.ViewModels
         private AddonsControllerFactory addonControllerFactory = new AddonsControllerFactory();
         private IAddonController addonController;
 
-        private IEnumerable<IAddonInfo> _addons;
+        private BindableCollection<IAddonInfo> _addons;
         private string _searchTerm;
+
+        public ICommand RemoveAddonsCommand { get; set; }
 
         public bool ShowSettingsPrompt
         {
             get
             {
                 return string.IsNullOrWhiteSpace(Properties.Settings.Default.AddonFolder);
-
-                
             }
         }
 
         public object SettingsPrompt { get; set; }
 
-        public IEnumerable<IAddonInfo> Addons
+        public BindableCollection<IAddonInfo> Addons
         {
             get
             {
                 if (!string.IsNullOrWhiteSpace(SearchTerm))
-                    return _addons.Where(addon => addon.Title.ToLower().Contains(SearchTerm.ToLower()));
+                    return new BindableCollection<IAddonInfo>(_addons.Where(addon => addon.Title.ToLower().Contains(SearchTerm.ToLower())));
 
                 return _addons;
             }
@@ -55,11 +56,11 @@ namespace WPFUI.ViewModels
             }
         }
 
+        public IEnumerable<IAddonInfo> SelectedAddons { get; set; }
+
         public AddonsViewModel()
         {
-            //testing
-            Properties.Settings.Default.Reset();
-            
+            RemoveAddonsCommand = new Command(RemoveAddons);
             addonController = addonControllerFactory.CreateAddonController();
 
             SettingsPrompt = new Views.SettingsPrompt();
@@ -83,6 +84,16 @@ namespace WPFUI.ViewModels
             catch (Exception)
             {
                 System.Windows.MessageBox.Show($"\"{Properties.Settings.Default.AddonFolder}\" is not a valid World of Warcraft root folder.");
+            }
+        }
+
+        public void RemoveAddons(object addons)
+        {
+            foreach(IAddonInfo addon in addons as IEnumerable<object>)
+            {
+                //error handling?
+                addonController.RemoveAddon(addon);
+                Addons.Remove(addon);
             }
         }
     }

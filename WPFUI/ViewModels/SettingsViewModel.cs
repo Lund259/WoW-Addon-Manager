@@ -47,7 +47,7 @@ namespace WPFUI.ViewModels
 
             if (folderDialog.ShowDialog() == DialogResult.OK)
             {
-                string tempPath = addonController.GetAddonFolderPath(folderDialog.SelectedPath);
+                string tempPath = addonController.GetAddonsFolderPath(folderDialog.SelectedPath);
                 if (!string.IsNullOrWhiteSpace(tempPath))
                 {
                     FolderPath = tempPath;
