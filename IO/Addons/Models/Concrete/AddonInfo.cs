@@ -19,6 +19,6 @@ namespace IO.Addons.Models.Concrete
         public Uri Website { get; set; }
         public string Email { get; set; }
         public string Category { get; set; }
-
+        public string DirectoryPath { get; set; }
     }
 }

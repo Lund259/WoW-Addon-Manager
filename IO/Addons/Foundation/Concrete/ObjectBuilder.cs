@@ -52,6 +52,8 @@ namespace IO.Addons.Foundation.Concrete
             addon.TryGetValue("X-Website", out string tmpWebsite);
             addon.TryGetValue("X-Email", out string email);
             addon.TryGetValue("X-Category", out string category);
+            addon.TryGetValue("DirectoryPath", out string directoryPath);
+
 
             //Metadata key for descriptions varies between Notes or Description. 
             if (description == null)
@@ -105,7 +107,8 @@ namespace IO.Addons.Foundation.Concrete
                     savedVariables,
                     website,
                     email,
-                    category
+                    category,
+                    directoryPath
                     );
             return newAddonInfo;
         }

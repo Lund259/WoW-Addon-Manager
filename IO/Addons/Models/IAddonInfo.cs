@@ -12,5 +12,6 @@ namespace IO.Addons.Models
         string Title { get; set; }
         Version Version { get; set; }
         Uri Website { get; set; }
+        string DirectoryPath { get; set; }
     }
 }

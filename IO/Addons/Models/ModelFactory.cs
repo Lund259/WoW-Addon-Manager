@@ -9,7 +9,7 @@ namespace IO.Addons.Models
 {
     class ModelFactory
     {
-        public IAddonInfo CreateAddonInfo(string title, string description, string author, Version @interface, Version version, string defaultState, string[] requiredDependencies, string[] savedVariables, Uri website, string email, string category)
+        public IAddonInfo CreateAddonInfo(string title, string description, string author, Version @interface, Version version, string defaultState, string[] requiredDependencies, string[] savedVariables, Uri website, string email, string category, string directoryPath)
         {
             return new AddonInfo()
             {
@@ -23,7 +23,8 @@ namespace IO.Addons.Models
                 SavedVariables = savedVariables,
                 Website = website,
                 Email = email,
-                Category = category
+                Category = category,
+                DirectoryPath = directoryPath
             };
         }
     }

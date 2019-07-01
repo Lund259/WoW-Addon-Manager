@@ -29,10 +29,14 @@ namespace IO.Addons.Foundation.Concrete
                     var tocLines = File.ReadLines(tocFile);
                     var metaData = GetMetadata(tocLines);
 
+                    //add directory
+                    metaData.Add("DirectoryPath", addonFolderPath);
+
                     //Only include the addon if it has a title. (Some addons have helper addons without titles which we don't want to include)
                     if (metaData.ContainsKey("Title"))
                         addons.Add(metaData);
                 }
+
             }
 
             return addons;
