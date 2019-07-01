@@ -57,5 +57,13 @@ namespace IO.Addons.Controller.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public void RemoveAddons(IEnumerable<IAddonInfo> addons)
+        {
+            foreach(IAddonInfo addon in addons)
+            {
+                fileSystem.DeleteDirectory(addon.DirectoryPath);
+            }
+        }
     }
 }

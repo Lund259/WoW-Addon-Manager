@@ -37,6 +37,18 @@ namespace WPFUI.ViewModels
             NotificationQueue = new SnackbarMessageQueue();
         }
 
+        public void LoadCurrentSettings()
+        {
+            FolderPath = Properties.Settings.Default.AddonFolder;
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            LoadCurrentSettings();
+        }
+
         public void ShowFolderDialog()
         {
             FolderBrowserDialog folderDialog = new FolderBrowserDialog();

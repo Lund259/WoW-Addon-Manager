@@ -18,6 +18,9 @@ namespace WPFUI.ViewModels
         private BindableCollection<IAddonInfo> _addons;
         private string _searchTerm;
 
+        //The folder all addons are currently loaded from. Saved in case user changes the folder during runtime. (then we reload the addons). 
+        private string currentAddonFolder;
+
         public ICommand RemoveAddonsCommand { get; set; }
 
         public bool ShowSettingsPrompt
@@ -56,8 +59,6 @@ namespace WPFUI.ViewModels
             }
         }
 
-        public IEnumerable<IAddonInfo> SelectedAddons { get; set; }
-
         public AddonsViewModel()
         {
             RemoveAddonsCommand = new Command(RemoveAddons);
@@ -70,7 +71,7 @@ namespace WPFUI.ViewModels
         {
             base.OnActivate();
 
-            if (!ShowSettingsPrompt && Addons == null)
+            if ((!ShowSettingsPrompt && Addons == null) || Properties.Settings.Default.AddonFolder != currentAddonFolder)
                 LoadAddons();
         }
 
@@ -80,6 +81,8 @@ namespace WPFUI.ViewModels
             {
                 var addons = addonController.GetAddons(Properties.Settings.Default.AddonFolder);
                 Addons = new BindableCollection<IAddonInfo>(addons);
+
+                currentAddonFolder = Properties.Settings.Default.AddonFolder;
             }
             catch (Exception)
             {
@@ -87,14 +90,25 @@ namespace WPFUI.ViewModels
             }
         }
 
-        public void RemoveAddons(object addons)
+        public void RemoveAddons(object selectedAddons)
         {
-            foreach(IAddonInfo addon in addons as IEnumerable<object>)
+
+            IEnumerable<IAddonInfo> addonsCollection = (selectedAddons as IEnumerable<object>).Select(o => o as IAddonInfo);
+
+            if (!addonsCollection.Any())
+                return;
+
+            string addonNames = string.Join(",\n", addonsCollection.Select(o => o.Title));
+
+            System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show($"Are you sure you want to remove the following Addons: \n{addonNames}", "Confirm addon deletion", System.Windows.MessageBoxButton.YesNo);
+
+            if(result == System.Windows.MessageBoxResult.Yes)
             {
-                //error handling?
-                addonController.RemoveAddon(addon);
-                Addons.Remove(addon);
+                addonController.RemoveAddons(addonsCollection);
+                Addons.RemoveRange(addonsCollection);
             }
+
+
         }
     }
 }
