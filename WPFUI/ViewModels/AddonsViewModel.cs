@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WPFUI.Models;
+using WPFUI.ViewModels.Domain;
 
 namespace WPFUI.ViewModels
 {
@@ -14,6 +16,8 @@ namespace WPFUI.ViewModels
     {
         private AddonsControllerFactory addonControllerFactory = new AddonsControllerFactory();
         private IAddonController addonController;
+
+        private DomainFactory domainFactory = new DomainFactory();
 
         private BindableCollection<IAddonInfo> _addons;
         private string _searchTerm;
@@ -61,7 +65,7 @@ namespace WPFUI.ViewModels
 
         public AddonsViewModel()
         {
-            RemoveAddonsCommand = new Command(RemoveAddons);
+            RemoveAddonsCommand = domainFactory.CreateCommand(RemoveAddons);
             addonController = addonControllerFactory.CreateAddonController();
 
             SettingsPrompt = new Views.SettingsPrompt();

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace WPFUI.ViewModels
+namespace WPFUI.ViewModels.Domain.Concrete
 {
     public class Command : ICommand
     {
