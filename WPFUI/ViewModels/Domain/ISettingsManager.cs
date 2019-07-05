@@ -8,8 +8,6 @@ namespace WPFUI.ViewModels.Domain
 {
     interface ISettingsManager
     {
-        T GetSetting<T>(string key);
-        void SetSetting<T>(string key, T value);
-        void SaveSettings();
+        string AddonsFolder { get; set; }
     }
 }

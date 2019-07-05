@@ -26,12 +26,12 @@ namespace WPFUI.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string AddonFolder {
+        public string AddonsFolder {
             get {
-                return ((string)(this["AddonFolder"]));
+                return ((string)(this["AddonsFolder"]));
             }
             set {
-                this["AddonFolder"] = value;
+                this["AddonsFolder"] = value;
             }
         }
     }

@@ -32,7 +32,7 @@ namespace WPFUI.ViewModels
         {
             get
             {
-                return string.IsNullOrWhiteSpace(settingsManager.GetSetting<string>("AddonsFolder"));
+                return string.IsNullOrWhiteSpace(settingsManager.AddonsFolder);
             }
         }
 
@@ -78,7 +78,7 @@ namespace WPFUI.ViewModels
         {
             base.OnActivate();
 
-            if ((!ShowSettingsPrompt && Addons == null) || settingsManager.GetSetting<string>("AddonsFolder") != currentAddonFolder)
+            if ((!ShowSettingsPrompt && Addons == null) && settingsManager.AddonsFolder != currentAddonFolder)
                 LoadAddons();
         }
 
@@ -86,14 +86,14 @@ namespace WPFUI.ViewModels
         {
             try
             {
-                var addons = addonController.GetAddons(settingsManager.GetSetting<string>("AddonsFolder"));
+                var addons = addonController.GetAddons(settingsManager.AddonsFolder);
                 Addons = new BindableCollection<IAddonInfo>(addons);
 
-                currentAddonFolder = settingsManager.GetSetting<string>("AddonsFolder");
+                currentAddonFolder = settingsManager.AddonsFolder;
             }
             catch (Exception)
             {
-                System.Windows.MessageBox.Show($"\"{settingsManager.GetSetting<string>("AddonsFolder")}\" is not a valid World of Warcraft root folder.");
+                System.Windows.MessageBox.Show($"\"{settingsManager.AddonsFolder}\" is not a valid World of Warcraft root folder.");
             }
         }
 

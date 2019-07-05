@@ -8,19 +8,19 @@ namespace WPFUI.ViewModels.Domain.Concrete
 {
     class LocalSettingsManager : ISettingsManager
     {
-        public T GetSetting<T>(string key)
+        public string AddonsFolder
         {
-            return (T)Properties.Settings.Default[key];
+            get
+            {
+                return Properties.Settings.Default.AddonsFolder;
+            }
+            set
+            {
+                Properties.Settings.Default.AddonsFolder = value;
+                Properties.Settings.Default.Save();
+            }
+
         }
 
-        public void SaveSettings()
-        {
-            Properties.Settings.Default.Save();
-        }
-
-        public void SetSetting<T>(string key, T value)
-        {
-            Properties.Settings.Default[key] = value;
-        }
     }
 }

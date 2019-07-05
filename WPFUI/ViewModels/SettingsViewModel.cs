@@ -44,7 +44,7 @@ namespace WPFUI.ViewModels
 
         public void LoadCurrentSettings()
         {
-            FolderPath = settingsManager.GetSetting<string>("AddonsFolder");
+            FolderPath = settingsManager.AddonsFolder;
         }
 
         protected override void OnActivate()
@@ -81,7 +81,7 @@ namespace WPFUI.ViewModels
         {
             bool result = true;
 
-            if (string.IsNullOrWhiteSpace(folderPath) || folderPath == settingsManager.GetSetting<string>("AddonsFolder"))
+            if (string.IsNullOrWhiteSpace(folderPath) || folderPath == settingsManager.AddonsFolder)
                 result = false;
 
             return result;
@@ -89,8 +89,7 @@ namespace WPFUI.ViewModels
 
         public void SaveSettings(string folderPath)
         {
-            settingsManager.SetSetting<string>("AddonsFolder", folderPath);
-            settingsManager.SaveSettings();
+            settingsManager.AddonsFolder = folderPath;
 
             DisplayNotification("Settings successfully saved!");
         }
