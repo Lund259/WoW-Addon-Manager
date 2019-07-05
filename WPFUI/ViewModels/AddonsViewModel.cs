@@ -18,6 +18,7 @@ namespace WPFUI.ViewModels
         private IAddonController addonController;
 
         private DomainFactory domainFactory = new DomainFactory();
+        private ISettingsManager settingsManager;
 
         private BindableCollection<IAddonInfo> _addons;
         private string _searchTerm;
@@ -31,7 +32,7 @@ namespace WPFUI.ViewModels
         {
             get
             {
-                return string.IsNullOrWhiteSpace(Properties.Settings.Default.AddonFolder);
+                return string.IsNullOrWhiteSpace(settingsManager.GetSetting<string>("AddonsFolder"));
             }
         }
 
@@ -68,6 +69,8 @@ namespace WPFUI.ViewModels
             RemoveAddonsCommand = domainFactory.CreateCommand(RemoveAddons);
             addonController = addonControllerFactory.CreateAddonController();
 
+            settingsManager = domainFactory.CreateSettingsManager();
+
             SettingsPrompt = new Views.SettingsPrompt();
         }
 
@@ -75,7 +78,7 @@ namespace WPFUI.ViewModels
         {
             base.OnActivate();
 
-            if ((!ShowSettingsPrompt && Addons == null) || Properties.Settings.Default.AddonFolder != currentAddonFolder)
+            if ((!ShowSettingsPrompt && Addons == null) || settingsManager.GetSetting<string>("AddonsFolder") != currentAddonFolder)
                 LoadAddons();
         }
 
@@ -83,14 +86,14 @@ namespace WPFUI.ViewModels
         {
             try
             {
-                var addons = addonController.GetAddons(Properties.Settings.Default.AddonFolder);
+                var addons = addonController.GetAddons(settingsManager.GetSetting<string>("AddonsFolder"));
                 Addons = new BindableCollection<IAddonInfo>(addons);
 
-                currentAddonFolder = Properties.Settings.Default.AddonFolder;
+                currentAddonFolder = settingsManager.GetSetting<string>("AddonsFolder");
             }
             catch (Exception)
             {
-                System.Windows.MessageBox.Show($"\"{Properties.Settings.Default.AddonFolder}\" is not a valid World of Warcraft root folder.");
+                System.Windows.MessageBox.Show($"\"{settingsManager.GetSetting<string>("AddonsFolder")}\" is not a valid World of Warcraft root folder.");
             }
         }
 

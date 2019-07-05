@@ -7,12 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WPFUI.ViewModels.Domain;
 using Screen = Caliburn.Micro.Screen;
 
 namespace WPFUI.ViewModels
 {
     public class SettingsViewModel : Screen
     {
+        private DomainFactory domainFactory = new DomainFactory();
+        private ISettingsManager settingsManager;
+
         private string _folderPath;
 
         public string FolderPath
@@ -33,13 +37,14 @@ namespace WPFUI.ViewModels
         public SettingsViewModel()
         {
             addonController = new AddonsControllerFactory().CreateAddonController();
+            settingsManager = domainFactory.CreateSettingsManager();
 
             NotificationQueue = new SnackbarMessageQueue();
         }
 
         public void LoadCurrentSettings()
         {
-            FolderPath = Properties.Settings.Default.AddonFolder;
+            FolderPath = settingsManager.GetSetting<string>("AddonsFolder");
         }
 
         protected override void OnActivate()
@@ -76,7 +81,7 @@ namespace WPFUI.ViewModels
         {
             bool result = true;
 
-            if (string.IsNullOrWhiteSpace(folderPath) || folderPath == Properties.Settings.Default.AddonFolder)
+            if (string.IsNullOrWhiteSpace(folderPath) || folderPath == settingsManager.GetSetting<string>("AddonsFolder"))
                 result = false;
 
             return result;
@@ -84,8 +89,8 @@ namespace WPFUI.ViewModels
 
         public void SaveSettings(string folderPath)
         {
-            Properties.Settings.Default.AddonFolder = folderPath;
-            Properties.Settings.Default.Save();
+            settingsManager.SetSetting<string>("AddonsFolder", folderPath);
+            settingsManager.SaveSettings();
 
             DisplayNotification("Settings successfully saved!");
         }
