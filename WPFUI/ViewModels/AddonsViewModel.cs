@@ -65,15 +65,24 @@ namespace WPFUI.ViewModels
         {
             get
             {
-                if (!string.IsNullOrWhiteSpace(SearchTerm))
-                    return new BindableCollection<IAddonInfo>(_addons.Where(addon => addon.Title.ToLower().Contains(SearchTerm.ToLower())));
-
                 return _addons;
             }
             set
             {
                 _addons = value;
                 NotifyOfPropertyChange(() => Addons);
+                NotifyOfPropertyChange(() => AddonsFiltered);
+            }
+        }
+
+        //returns a filtered version of the Addons property. Usefull for dynamic updating the Datagrid as the user types in the searchbox.
+        public BindableCollection<IAddonInfo> AddonsFiltered {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(SearchTerm))
+                    return new BindableCollection<IAddonInfo>(_addons.Where(addon => addon.Title.ToLower().Contains(SearchTerm.ToLower())));
+
+                return _addons;
             }
         }
 
@@ -83,7 +92,7 @@ namespace WPFUI.ViewModels
             set
             {
                 _searchTerm = value;
-                NotifyOfPropertyChange(() => Addons);
+                NotifyOfPropertyChange(() => AddonsFiltered);
             }
         }
 
@@ -138,10 +147,11 @@ namespace WPFUI.ViewModels
             {
                 addonController.RemoveAddons(addonsCollection);
                 Addons.RemoveRange(addonsCollection);
+
+                //because RemoveRange doesn't call the Set method in the Addons property, we need to notifyofpropertychange here.
                 NotifyOfPropertyChange(() => Addons);
+                NotifyOfPropertyChange(() => AddonsFiltered);
             }
-
-
         }
 
         public async void InstallAddon()

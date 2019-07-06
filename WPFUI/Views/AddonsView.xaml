@@ -52,7 +52,7 @@
                 </StackPanel>
             </Button>
             <Button  Margin="5"
-                CommandParameter="{Binding ElementName=Addons, Path=SelectedItems}"
+                CommandParameter="{Binding ElementName=AddonsFiltered, Path=SelectedItems}"
                 Command="{Binding RemoveAddonsCommand}" ToolTip="Delete the selected addons. You can select multiple addons at a time by using Shift, CTRL or dragging the mouse.">
                 Remove Addons
             </Button>
@@ -64,7 +64,7 @@
 
         <!-- ROW 2 -->
 
-        <DataGrid x:Name="Addons" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" 
+        <DataGrid x:Name="AddonsFiltered" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Extended"
                   CanUserAddRows="False" CanUserDeleteRows="False" SelectionUnit="FullRow">
 
