@@ -60,17 +60,38 @@ namespace IO.Addons.Controller.Concrete
             }
         }
 
-        public void InstallAddon(string addonPath, string folderPath)
+        public async Task InstallAddon(string addonPath, string folderPath)
         {
-            //is it a Zip file or a folder?
+            string tempAddonPath = folderPath + @"\newAddon";
+            bool correctlyInstalled = false;
+
+            if (fileSystem.DirectoryExists(tempAddonPath))
+                fileSystem.DeleteDirectory(tempAddonPath);
 
             try
             {
-                fileSystem.ExtractZipToPath(addonPath, folderPath);
+                await fileSystem.ExtractZipToPath(addonPath, tempAddonPath);
+                
             }
             catch (Exception ex)
             {
-                throw new Exception($"The provided file {addonPath} is not a valid zip file", ex);
+                throw new Exception($"The provided file {addonPath} is not a valid addon zip file", ex);
+            }
+
+            try
+            {
+                correctlyInstalled = await addonIO.InstallAddon(folderPath, tempAddonPath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("The addon is allready installed", ex);
+            }
+            finally
+            {
+                fileSystem.DeleteDirectory(tempAddonPath);
+
+                if(!correctlyInstalled)
+                    throw new Exception("The provided file is not a valid addon");
             }
 
         }

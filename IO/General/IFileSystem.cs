@@ -12,6 +12,7 @@ namespace IO.General
         T GetObjectFromFile<T>(string path);
         void SaveObjectToFile<T>(string path, T obj);
 
-        void ExtractZipToPath(string zipPath, string outputPath);
+        Task ExtractZipToPath(string zipPath, string outputPath);
+
     }
 }

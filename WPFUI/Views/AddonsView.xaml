@@ -43,12 +43,20 @@
 
         <!-- ROW 1 -->
 
-
-        <Button Grid.Row="1" Grid.Column="1"
+        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+            <Button x:Name="InstallAddon" Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Install Addon" VerticalAlignment="Center"/>
+                    <ProgressBar Visibility="{Binding DisplayProgressbar}"
+                    IsIndeterminate="True" />
+                </StackPanel>
+            </Button>
+            <Button  Margin="5"
                 CommandParameter="{Binding ElementName=Addons, Path=SelectedItems}"
                 Command="{Binding RemoveAddonsCommand}" ToolTip="Delete the selected addons. You can select multiple addons at a time by using Shift, CTRL or dragging the mouse.">
-            Remove Addons
-        </Button>
+                Remove Addons
+            </Button>
+        </StackPanel>
         <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
             x:Name="SearchTerm" Grid.Row="1" Grid.Column="2"
             MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Right"/>
@@ -70,6 +78,12 @@
                 <DataGridTextColumn Header="Description" Binding="{Binding Path=Description}" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <!-- Notifications -->
+        <materialDesign:Snackbar Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
+          MessageQueue="{Binding NotificationQueue}"
+          x:Name="NotificationBox" />
+
     </Grid>
 
 </UserControl>

@@ -1,14 +1,17 @@
 ﻿using Caliburn.Micro;
 using IO.Addons.Controller;
 using IO.Addons.Models;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Windows.Input;
 using WPFUI.Models;
 using WPFUI.ViewModels.Domain;
+using Screen = Caliburn.Micro.Screen;
 
 namespace WPFUI.ViewModels
 {
@@ -27,6 +30,26 @@ namespace WPFUI.ViewModels
         private string currentAddonFolder;
 
         public ICommand RemoveAddonsCommand { get; set; }
+
+        public ISnackbarMessageQueue NotificationQueue { get; set; }
+
+        private string _displayProgressbar = "Collapsed";
+
+        public string DisplayProgressbar
+        {
+            get
+            {
+                return _displayProgressbar;
+            }
+
+            set
+            {
+                _displayProgressbar = value;
+                NotifyOfPropertyChange(() => DisplayProgressbar);
+            }
+        }
+
+
 
         public bool ShowSettingsPrompt
         {
@@ -73,7 +96,7 @@ namespace WPFUI.ViewModels
 
             SettingsPrompt = new Views.SettingsPrompt();
 
-            addonController.InstallAddon(@"C:\Users\aaben\Desktop\TSM-master.zip", @"C:\Users\aaben\Desktop\test");
+            NotificationQueue = new SnackbarMessageQueue();
         }
 
         protected override void OnActivate()
@@ -118,6 +141,50 @@ namespace WPFUI.ViewModels
             }
 
 
+        }
+
+        public async void InstallAddon()
+        {
+            if(DisplayProgressbar != "Collapsed")
+            {
+                DisplayNotification("Another addon is currently being installed");
+                return;
+            }
+
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.Multiselect = false;
+            fileDialog.Title = "Select the addon Zip archive you want to install";
+
+
+            if (fileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DisplayProgressbar = "Visible";
+                    await addonController.InstallAddon(fileDialog.FileName, @"C:\Users\aaben\Desktop\test");
+                    
+                    LoadAddons();
+
+                    DisplayNotification("Addon has been successfully installed");
+                }
+                catch (Exception ex)
+                {
+                    //DisplayNotification("Please select a valid addon Zip archive to install");
+                    DisplayNotification(ex.Message);
+                }
+                finally
+                {
+                    DisplayProgressbar = "Collapsed";
+                }
+            }
+
+        }
+
+        public void DisplayNotification(string message)
+        {
+
+            //the message queue can be called from any thread
+            Task.Factory.StartNew(() => NotificationQueue.Enqueue(message));
         }
     }
 }

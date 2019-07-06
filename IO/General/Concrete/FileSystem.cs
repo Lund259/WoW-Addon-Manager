@@ -36,17 +36,19 @@ namespace IO.General.Concrete
         }
 
         //Extract the provided zipfile to the outputpath and throw an exception if the zipfile is invalid.
-        public void ExtractZipToPath(string zipPath, string outputPath)
+        public Task ExtractZipToPath(string zipPath, string outputPath)
         {
-            try
+            return Task.Run(() =>
             {
-                ZipFile.ExtractToDirectory(zipPath, outputPath);
-            }
-            catch (Exception e)
-            {
-                if(e is NotSupportedException)
-                    throw e;
-            }
+                try
+                {
+                    ZipFile.ExtractToDirectory(zipPath, outputPath);
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            });
         }
 
         public T GetObjectFromFile<T>(string path)
