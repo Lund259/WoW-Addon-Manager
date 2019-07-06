@@ -13,6 +13,7 @@ using WPFUI.Models;
 using WPFUI.ViewModels.Domain;
 using Screen = Caliburn.Micro.Screen;
 using Octokit;
+using System.Deployment.Application;
 
 namespace WPFUI.ViewModels
 {
@@ -119,7 +120,12 @@ namespace WPFUI.ViewModels
             var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
 
             Version latestVersion = new Version(releases[0].TagName.Substring(1));
-            Version currentVersion = new Version(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            string currentVersionString = ApplicationDeployment.IsNetworkDeployed
+               ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
+               : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
+            Version currentVersion = new Version(currentVersionString);
 
             if (latestVersion > currentVersion)
                 DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
