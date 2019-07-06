@@ -12,10 +12,10 @@ What the application currently does:
 - Install Addons by selecting a zip file
   - The application will automatically extract, move and rename all the folders accordingly. 
   - In the future i plan to implement some sort of online search to install addons from. 
-- Uninstall Addons by sellecting one or multiple addons from the list and clicking the "Uninstall Addons" button.
+- Uninstall Addons by selecting one or multiple addons from the list and clicking the "Uninstall Addons" button.
   - To select more than one addon you can: Drag the mouse, use CTRL + mouseclick or Shift.
-- Change your WoW installion folder at any time in the Settings menu. 
-  - When you change your installing folder the Addons list will automatically update.
+- Change your WoW installation folder at any time in the Settings menu. 
+  - When you change your installation folder the Addons list will automatically update.
   - I plan to implement the ability to have multiple WoW installations at a time later. 
 - The menu is accessible by clicking on the "hamburger button" in the top left corner. 
 - The application will display a quick notification if newer releases are available on Github.
