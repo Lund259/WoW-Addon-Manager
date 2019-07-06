@@ -7,6 +7,7 @@ What the application currently does:
 
 - Displays list of all installed addons with Title, Author, WoW version it was developed for, Website and description
   - The list can be sorted by clicking on the Column you want to sort it by.
+  - You can also drag and drop the columns around if you don't like the default layout.
   - You can search and filter the list by typing in the search box. The list will update as you type.
 - Install Addons by selecting a zip file
   - The application will automatically extract, move and rename all the folders accordingly. 
@@ -16,8 +17,11 @@ What the application currently does:
 - Change your WoW installion folder at any time in the Settings menu. 
   - When you change your installing folder the Addons list will automatically update.
   - I plan to implement the ability to have multiple WoW installations at a time later. 
+-The menu is accessible by clicking on the "hamburger button" in the top left corner. 
 
 If you have any suggestions or find any bugs please submit them here on github. And feel free to contribute if you want.
+
+[Click here to download the latest release](https://github.com/Lund259/WoW-Addon-Manager/releases)
   
 Some pictures showcasing the application:
 
