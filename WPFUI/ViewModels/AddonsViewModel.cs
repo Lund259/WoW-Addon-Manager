@@ -12,6 +12,7 @@ using System.Windows.Input;
 using WPFUI.Models;
 using WPFUI.ViewModels.Domain;
 using Screen = Caliburn.Micro.Screen;
+using Octokit;
 
 namespace WPFUI.ViewModels
 {
@@ -105,7 +106,23 @@ namespace WPFUI.ViewModels
 
             SettingsPrompt = new Views.SettingsPrompt();
 
-            NotificationQueue = new SnackbarMessageQueue();
+            NotificationQueue = new SnackbarMessageQueue(new TimeSpan(0, 0, 5));
+
+            CheckForNewerVersions();
+        }
+
+        //Notify the user if a newer release version exists on github.
+        private void CheckForNewerVersions()
+        {
+            
+            GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("WoW-Addon-Manager"));
+            var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
+
+            Version latestVersion = new Version(releases[0].TagName.Substring(1));
+            Version currentVersion = new Version(System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+
+            if (latestVersion > currentVersion)
+                DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
         }
 
         protected override void OnActivate()
