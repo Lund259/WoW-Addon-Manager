@@ -49,13 +49,7 @@ namespace IO.Addons.Controller.Concrete
 
         public void RemoveAddon(IAddonInfo addon)
         {
-            //Maybe look at dependencies and remove them as well? (Could be a setting)
             fileSystem.DeleteDirectory(addon.DirectoryPath);
-        }
-
-        public void AddAddon()
-        {
-            throw new NotImplementedException();
         }
 
         public void RemoveAddons(IEnumerable<IAddonInfo> addons)
@@ -64,6 +58,21 @@ namespace IO.Addons.Controller.Concrete
             {
                 fileSystem.DeleteDirectory(addon.DirectoryPath);
             }
+        }
+
+        public void InstallAddon(string addonPath, string folderPath)
+        {
+            //is it a Zip file or a folder?
+
+            try
+            {
+                fileSystem.ExtractZipToPath(addonPath, folderPath);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"The provided file {addonPath} is not a valid zip file", ex);
+            }
+
         }
     }
 }

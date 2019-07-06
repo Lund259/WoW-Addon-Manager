@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,20 @@ namespace IO.General.Concrete
             Uri pathUri;
             Boolean isValidUri = Uri.TryCreate(path, UriKind.Absolute, out pathUri);
             return isValidUri && pathUri != null && pathUri.IsLoopback;
+        }
+
+        //Extract the provided zipfile to the outputpath and throw an exception if the zipfile is invalid.
+        public void ExtractZipToPath(string zipPath, string outputPath)
+        {
+            try
+            {
+                ZipFile.ExtractToDirectory(zipPath, outputPath);
+            }
+            catch (Exception e)
+            {
+                if(e is NotSupportedException)
+                    throw e;
+            }
         }
 
         public T GetObjectFromFile<T>(string path)

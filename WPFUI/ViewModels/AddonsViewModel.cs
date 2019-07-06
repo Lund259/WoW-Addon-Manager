@@ -72,6 +72,8 @@ namespace WPFUI.ViewModels
             settingsManager = domainFactory.CreateSettingsManager();
 
             SettingsPrompt = new Views.SettingsPrompt();
+
+            addonController.InstallAddon(@"C:\Users\aaben\Desktop\TSM-master.zip", @"C:\Users\aaben\Desktop\test");
         }
 
         protected override void OnActivate()

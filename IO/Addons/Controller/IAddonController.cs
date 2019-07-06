@@ -16,6 +16,6 @@ namespace IO.Addons.Controller
         void RemoveAddon(IAddonInfo addon);
         void RemoveAddons(IEnumerable<IAddonInfo> addons);
 
-        void AddAddon();
+        void InstallAddon(string addonPath, string folderPath);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace IO.General
 {
@@ -6,12 +7,11 @@ namespace IO.General
     {
         bool DirectoryIsValid(string path);
         bool DirectoryExists(string path);
-
+        void DeleteDirectory(string directoryPath);
 
         T GetObjectFromFile<T>(string path);
-
         void SaveObjectToFile<T>(string path, T obj);
 
-        void DeleteDirectory(string directoryPath);
+        void ExtractZipToPath(string zipPath, string outputPath);
     }
 }
