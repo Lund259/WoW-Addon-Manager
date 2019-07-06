@@ -54,7 +54,7 @@
             <Button  Margin="5"
                 CommandParameter="{Binding ElementName=AddonsFiltered, Path=SelectedItems}"
                 Command="{Binding RemoveAddonsCommand}" ToolTip="Delete the selected addons. You can select multiple addons at a time by using Shift, CTRL or dragging the mouse.">
-                Remove Addons
+                Uninstall Addons
             </Button>
         </StackPanel>
         <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
