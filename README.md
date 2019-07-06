@@ -1,4 +1,4 @@
-# WoW-Addon-Manager
+# WoW Addon Manager
 This is an application that makes it easy to manage Addons in all versions of World of Warcraft.
 
 I created this application as a fun way to learn about WPF and Caliburn Micro MWWM pattern. I have no idea if this application will be useful to anyone, but as i have found it very useful while using it myself, i am now releasing it for everyone to use and contribute to.
@@ -17,7 +17,8 @@ What the application currently does:
 - Change your WoW installion folder at any time in the Settings menu. 
   - When you change your installing folder the Addons list will automatically update.
   - I plan to implement the ability to have multiple WoW installations at a time later. 
--The menu is accessible by clicking on the "hamburger button" in the top left corner. 
+- The menu is accessible by clicking on the "hamburger button" in the top left corner. 
+- The application will display a quick notification if newer releases are available on Github.
 
 If you have any suggestions or find any bugs please submit them here on github. And feel free to contribute if you want.
 
