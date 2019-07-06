@@ -20,6 +20,8 @@ What the application currently does:
 -The menu is accessible by clicking on the "hamburger button" in the top left corner. 
 
 If you have any suggestions or find any bugs please submit them here on github. And feel free to contribute if you want.
+
+[Click here to download the latest release](https://github.com/Lund259/WoW-Addon-Manager/releases)
   
 Some pictures showcasing the application:
 
