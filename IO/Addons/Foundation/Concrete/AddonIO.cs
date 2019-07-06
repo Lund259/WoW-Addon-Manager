@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 using IO.Addons.Models;
 using System.IO;
 using System.Text.RegularExpressions;
+using IO.General;
 
 namespace IO.Addons.Foundation.Concrete
 {
     class AddonIO : IAddonIO
     {
+        IFileSystem fileSystem;
+
+        public AddonIO()
+        {
+            fileSystem = new GeneralFactory().CreateFileSystem();
+        }
 
         //iterates through all the folders (to a depth of 2), finds the folders containing an addon, renames the folder correctly and moves it to the basePath
         //returns true if at least 1 addon were found in the addonPath
@@ -55,7 +62,7 @@ namespace IO.Addons.Foundation.Concrete
 
         //rename the folder correctly and move it to the output path
         //Note: A folder must be named exactly the same as the toc file for the addon to load correctly in the game. 
-        private static void CleanAndMoveAddon(string outputPath, string addonPath, string tocFile)
+        private void CleanAndMoveAddon(string outputPath, string addonPath, string tocFile)
         {
             
             int tocNameIndex = tocFile.LastIndexOf('\\') + 1;
@@ -63,7 +70,7 @@ namespace IO.Addons.Foundation.Concrete
             //convert folder\\folder1\\folder2\\folder2.toc to: folder2
             string name = tocFile.Substring(tocNameIndex, tocFile.Length - 4 - tocNameIndex);
 
-            Directory.Move(addonPath, $"{outputPath}\\{name}");
+            fileSystem.MoveDirectory(addonPath, $"{outputPath}\\{name}");
         }
 
         public IEnumerable<Dictionary<string, string>> GetMetaData(string folderPath)

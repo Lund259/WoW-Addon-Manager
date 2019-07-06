@@ -118,7 +118,7 @@ namespace WPFUI.ViewModels
             }
             catch (Exception)
             {
-                System.Windows.MessageBox.Show($"\"{settingsManager.AddonsFolder}\" is not a valid World of Warcraft root folder.");
+                DisplayNotification($"\"{settingsManager.AddonsFolder}\" is not a valid World of Warcraft root folder.");
             }
         }
 
@@ -138,6 +138,7 @@ namespace WPFUI.ViewModels
             {
                 addonController.RemoveAddons(addonsCollection);
                 Addons.RemoveRange(addonsCollection);
+                NotifyOfPropertyChange(() => Addons);
             }
 
 
@@ -161,7 +162,7 @@ namespace WPFUI.ViewModels
                 try
                 {
                     DisplayProgressbar = "Visible";
-                    await addonController.InstallAddon(fileDialog.FileName, @"C:\Users\aaben\Desktop\test");
+                    await addonController.InstallAddon(fileDialog.FileName, settingsManager.AddonsFolder);
                     
                     LoadAddons();
 

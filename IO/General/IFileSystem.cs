@@ -14,5 +14,7 @@ namespace IO.General
 
         Task ExtractZipToPath(string zipPath, string outputPath);
 
+        void MoveDirectory(string source, string target);
+
     }
 }
