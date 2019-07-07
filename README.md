@@ -1,7 +1,7 @@
 # WoW Addon Manager
 This is an application that makes it easy to manage Addons in all versions of World of Warcraft.
 
-I created this application as a fun way to learn about WPF and Caliburn Micro MWWM pattern. I have no idea if this application will be useful to anyone, but as i have found it very useful while using it myself, i am now releasing it for everyone to use and contribute to.
+I created this application as a fun way to learn about WPF and Caliburn Micro mvvm pattern. I have no idea if this application will be useful to anyone, but as i have found it very useful while using it myself, i am now releasing it for everyone to use and contribute to.
 
 What the application currently does:
 
