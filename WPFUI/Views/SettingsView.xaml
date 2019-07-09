@@ -45,9 +45,17 @@
             Style="{StaticResource MaterialDesignSwitchToggleButton}" x:Name="UninstallConfirmation"/>
 
         <!-- Row 3 -->
-        
-        <Button x:Name="SaveSettings" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="20" IsCancel="True" MaxWidth="100">
-            Save
+
+        <Button x:Name="SaveSettings" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="20" Padding="0" IsCancel="True" MaxWidth="100">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                
+                <materialDesign:PackIcon Grid.Column="0" Kind="ContentSave" Margin="0 0 0 0"/>
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="Save" Margin="10 0 30 0"/>
+            </Grid>
         </Button>
 
         <!-- Notifications -->
