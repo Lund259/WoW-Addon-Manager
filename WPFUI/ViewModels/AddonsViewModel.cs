@@ -7,13 +7,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Windows.Input;
 using WPFUI.Models;
 using WPFUI.ViewModels.Domain;
 using Screen = Caliburn.Micro.Screen;
 using Octokit;
 using System.Deployment.Application;
+using System.Windows.Forms;
+using DragEventArgs = System.Windows.DragEventArgs;
 
 namespace WPFUI.ViewModels
 {
@@ -115,20 +116,27 @@ namespace WPFUI.ViewModels
         //Notify the user if a newer release version exists on github.
         private void CheckForNewerVersions()
         {
-            
-            GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("WoW-Addon-Manager"));
-            var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
+            //should implement better error handling. But for now just don't crash if something happens. 
+            try
+            {
+                GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("WoW-Addon-Manager"));
+                var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
 
-            Version latestVersion = new Version(releases[0].TagName.Substring(1));
+                Version latestVersion = new Version(releases[0].TagName.Substring(1));
 
-            string currentVersionString = ApplicationDeployment.IsNetworkDeployed
-               ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
-               : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string currentVersionString = ApplicationDeployment.IsNetworkDeployed
+                   ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
+                   : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            Version currentVersion = new Version(currentVersionString);
+                Version currentVersion = new Version(currentVersionString);
 
-            if (latestVersion > currentVersion)
-                DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
+                if (latestVersion > currentVersion)
+                    DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
+
+            }
+            catch (Exception)
+            {
+            }
         }
 
         protected override void OnActivate()
@@ -185,14 +193,8 @@ namespace WPFUI.ViewModels
 
         }
 
-        public async void InstallAddon()
+        public async void InstallAddonButton()
         {
-            if(DisplayProgressbar != "Collapsed")
-            {
-                DisplayNotification("Another addon is currently being installed");
-                return;
-            }
-
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = false;
             fileDialog.Title = "Select the addon Zip archive you want to install";
@@ -200,33 +202,55 @@ namespace WPFUI.ViewModels
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
-                {
-                    DisplayProgressbar = "Visible";
-                    await addonController.InstallAddon(fileDialog.FileName, settingsManager.AddonsFolder);
-                    
-                    LoadAddons();
-
-                    DisplayNotification("Addon has been successfully installed");
-                }
-                catch (Exception ex)
-                {
-                    //DisplayNotification("Please select a valid addon Zip archive to install");
-                    DisplayNotification(ex.Message);
-                }
-                finally
-                {
-                    DisplayProgressbar = "Collapsed";
-                }
+                await InstallAddon(fileDialog.FileName);
             }
 
         }
 
+        //Display the InstallingAddon-progressbar and start a new task installing the selected addon
+        //If another addon is currently being installed, notify the user and do nothing
+        //Reload addons when finished
+        //If somethings goes wrong notify the user with the error (usually an invalid zip archive).
+        private async Task InstallAddon(string fileName)
+        {
+            if (DisplayProgressbar != "Collapsed")
+            {
+                DisplayNotification("Another addon is currently being installed");
+                return;
+            }
+
+            try
+            {
+                DisplayProgressbar = "Visible";
+                await addonController.InstallAddon(fileName, settingsManager.AddonsFolder);
+
+                LoadAddons();
+
+                DisplayNotification("Addon has been successfully installed");
+            }
+            catch (Exception ex)
+            {
+                //DisplayNotification("Please select a valid addon Zip archive to install");
+                DisplayNotification(ex.Message);
+            }
+            finally
+            {
+                DisplayProgressbar = "Collapsed";
+            }
+        }
+
         public void DisplayNotification(string message)
         {
+            Task.Factory.StartNew(() => NotificationQueue.Enqueue(message, true));
+        }
 
-            //the message queue can be called from any thread
-            Task.Factory.StartNew(() => NotificationQueue.Enqueue(message));
+        public async void FileDropped(DragEventArgs e)
+        {
+            //It returns an array of strings that contains 1 element (even though you drop 2 elements).
+            string[] fileNames = (string[])e.Data.GetData("FileName");
+            string fileName = fileNames[0];
+
+            await InstallAddon(fileName);
         }
     }
 }
