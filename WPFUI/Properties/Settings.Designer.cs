@@ -34,5 +34,17 @@ namespace WPFUI.Properties {
                 this["AddonsFolder"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UninstallConfirmation {
+            get {
+                return ((bool)(this["UninstallConfirmation"]));
+            }
+            set {
+                this["UninstallConfirmation"] = value;
+            }
+        }
     }
 }

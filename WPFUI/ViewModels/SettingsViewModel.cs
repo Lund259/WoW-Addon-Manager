@@ -29,6 +29,16 @@ namespace WPFUI.ViewModels
             }
         }
 
+        private bool _uninstallConfirmation;
+        public bool UninstallConfirmation
+        {
+            get { return _uninstallConfirmation; }
+            set
+            {
+                _uninstallConfirmation = value;
+                NotifyOfPropertyChange(() => UninstallConfirmation);
+            }
+        }
         public ISnackbarMessageQueue NotificationQueue { get; set; }
 
         IAddonController addonController;
@@ -45,6 +55,7 @@ namespace WPFUI.ViewModels
         public void LoadCurrentSettings()
         {
             FolderPath = settingsManager.AddonsFolder;
+            UninstallConfirmation = settingsManager.UninstallConfirmation;
         }
 
         protected override void OnActivate()
@@ -76,29 +87,26 @@ namespace WPFUI.ViewModels
             }
         }
 
-        //Return false if the settings are invalid or the settings hasn't changed. 
-        public bool CanSaveSettings(string folderPath)
+        //Return false if the settings are invalid
+        public bool CanSaveSettings(string folderPath, bool uninstallConfirmation)
         {
-            bool result = true;
+            if (!string.IsNullOrWhiteSpace(folderPath))
+                return true;
 
-            if (string.IsNullOrWhiteSpace(folderPath) || folderPath == settingsManager.AddonsFolder)
-                result = false;
-
-            return result;
+            return false;
         }
 
-        public void SaveSettings(string folderPath)
+        public void SaveSettings(string folderPath, bool uninstallConfirmation)
         {
             settingsManager.AddonsFolder = folderPath;
+            settingsManager.UninstallConfirmation = UninstallConfirmation;
 
             DisplayNotification("Settings successfully saved!");
         }
 
         public void DisplayNotification(string message)
         {
-
-            //the message queue can be called from any thread
-            Task.Factory.StartNew(() => NotificationQueue.Enqueue(message));
+            Task.Factory.StartNew(() => NotificationQueue.Enqueue(message, true));
         }
 
     }

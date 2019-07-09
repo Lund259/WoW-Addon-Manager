@@ -40,8 +40,13 @@
         </Button>
 
         <!-- Row 2 -->
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Uninstall addon confirmation: " VerticalAlignment="Center"/>
+        <ToggleButton Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Margin="5" ToolTip="Display a yes/no confirmation window when uninstalling addons."
+            Style="{StaticResource MaterialDesignSwitchToggleButton}" x:Name="UninstallConfirmation"/>
+
+        <!-- Row 3 -->
         
-        <Button x:Name="SaveSettings" Grid.Row="2" Grid.Column="2" Margin="0 6 0 6" IsCancel="True" MaxWidth="100">
+        <Button x:Name="SaveSettings" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="20" IsCancel="True" MaxWidth="100">
             Save
         </Button>
 
