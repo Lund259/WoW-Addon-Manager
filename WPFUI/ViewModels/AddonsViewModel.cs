@@ -115,20 +115,27 @@ namespace WPFUI.ViewModels
         //Notify the user if a newer release version exists on github.
         private void CheckForNewerVersions()
         {
-            
-            GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("WoW-Addon-Manager"));
-            var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
+            //should implement better error handling. But for now just don't crash if something happens. 
+            try
+            {
+                GitHubClient gitHubClient = new GitHubClient(new ProductHeaderValue("WoW-Addon-Manager"));
+                var releases = gitHubClient.Repository.Release.GetAll("Lund259", "WoW-Addon-Manager").Result;
 
-            Version latestVersion = new Version(releases[0].TagName.Substring(1));
+                Version latestVersion = new Version(releases[0].TagName.Substring(1));
 
-            string currentVersionString = ApplicationDeployment.IsNetworkDeployed
-               ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
-               : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                string currentVersionString = ApplicationDeployment.IsNetworkDeployed
+                   ? ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString()
+                   : System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            Version currentVersion = new Version(currentVersionString);
+                Version currentVersion = new Version(currentVersionString);
 
-            if (latestVersion > currentVersion)
-                DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
+                if (latestVersion > currentVersion)
+                    DisplayNotification($"A newer version of this software has been released on github. Download it at github.com/Lund259/WoW-Addon-Manager");
+
+            }
+            catch (Exception)
+            {
+            }
         }
 
         protected override void OnActivate()
