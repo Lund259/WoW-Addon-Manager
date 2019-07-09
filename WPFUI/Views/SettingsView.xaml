@@ -40,9 +40,22 @@
         </Button>
 
         <!-- Row 2 -->
-        
-        <Button x:Name="SaveSettings" Grid.Row="2" Grid.Column="2" Margin="0 6 0 6" IsCancel="True" MaxWidth="100">
-            Save
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Uninstall addon confirmation: " VerticalAlignment="Center"/>
+        <ToggleButton Grid.Row="2" Grid.Column="2" HorizontalAlignment="Left" Margin="5" ToolTip="Display a yes/no confirmation window when uninstalling addons."
+            Style="{StaticResource MaterialDesignSwitchToggleButton}" x:Name="UninstallConfirmation"/>
+
+        <!-- Row 3 -->
+
+        <Button x:Name="SaveSettings" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3" Margin="20" Padding="0" IsCancel="True" MaxWidth="100">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                
+                <materialDesign:PackIcon Grid.Column="0" Kind="ContentSave" Margin="0 0 0 0"/>
+                <TextBlock Grid.Column="1" Grid.ColumnSpan="2" Text="Save" Margin="10 0 30 0"/>
+            </Grid>
         </Button>
 
         <!-- Notifications -->

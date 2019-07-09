@@ -54,7 +54,10 @@
 
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="{Binding Path=Icon}" Margin="5"/>
+                                    <TextBlock Text="{Binding Path=Name}" Margin="5"/>
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                         

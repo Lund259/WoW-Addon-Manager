@@ -22,5 +22,20 @@ namespace WPFUI.ViewModels.Domain.Concrete
 
         }
 
+        public bool UninstallConfirmation
+        {
+            get
+            {
+                return Properties.Settings.Default.UninstallConfirmation;
+
+            }
+            set
+            {
+                Properties.Settings.Default.UninstallConfirmation = value;
+                Properties.Settings.Default.Save();
+            }
+        }
+
+
     }
 }

@@ -9,5 +9,7 @@ namespace WPFUI.ViewModels.Domain
     interface ISettingsManager
     {
         string AddonsFolder { get; set; }
+
+        bool UninstallConfirmation { get; set; }
     }
 }

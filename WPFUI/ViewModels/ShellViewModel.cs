@@ -37,7 +37,7 @@ namespace WPFUI.ViewModels
 
         public ShellViewModel()
         {
-            Pages = new Page[] { new Page("Addons", new AddonsViewModel()), new Page("Settings", new SettingsViewModel())};
+            Pages = new Page[] { new Page("Addons", new AddonsViewModel(), "Package"), new Page("Settings", new SettingsViewModel(), "Settings")};
             CurrentPage = Pages[0];
         }
 

@@ -12,10 +12,13 @@ namespace WPFUI.Models
         public string Name { get; set; }
         public Screen Screen { get; set; }
 
-        public Page(string name, Screen screen)
+        public string Icon { get; set; }
+
+        public Page(string name, Screen screen, string icon)
         {
             Name = name;
             Screen = screen;
+            Icon = icon;
         }
 
 

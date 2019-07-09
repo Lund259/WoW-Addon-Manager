@@ -156,17 +156,24 @@ namespace WPFUI.ViewModels
 
         public void RemoveAddons(object selectedAddons)
         {
-
             IEnumerable<IAddonInfo> addonsCollection = (selectedAddons as IEnumerable<object>).Select(o => o as IAddonInfo);
 
             if (!addonsCollection.Any())
                 return;
 
+            bool uninstallConfirmed = true;
+
             string addonNames = string.Join(",\n", addonsCollection.Select(o => o.Title));
 
-            System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show($"Are you sure you want to remove the following Addons: \n{addonNames}", "Confirm addon deletion", System.Windows.MessageBoxButton.YesNo);
+            //if the show uninstall confirmation settings is enabled, display the yes/no dialog.
+            if(settingsManager.UninstallConfirmation)
+            {
+                System.Windows.MessageBoxResult result = System.Windows.MessageBox.Show($"Are you sure you want to remove the following Addons: \n{addonNames}", "Confirm addon deletion", System.Windows.MessageBoxButton.YesNo);
 
-            if(result == System.Windows.MessageBoxResult.Yes)
+                uninstallConfirmed = result == System.Windows.MessageBoxResult.Yes;
+            }
+
+            if (uninstallConfirmed)
             {
                 addonController.RemoveAddons(addonsCollection);
                 Addons.RemoveRange(addonsCollection);
@@ -175,6 +182,7 @@ namespace WPFUI.ViewModels
                 NotifyOfPropertyChange(() => Addons);
                 NotifyOfPropertyChange(() => AddonsFiltered);
             }
+
         }
 
         public async void InstallAddon()
