@@ -44,19 +44,26 @@
         <!-- ROW 1 -->
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-            <Button x:Name="InstallAddon" Margin="5">
+            <Button x:Name="InstallAddon" Margin="5" Padding="5 5 10 5">
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Install Addon" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Folder" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Install Addon" VerticalAlignment="Center"/>
+                    </StackPanel>
                     <ProgressBar Visibility="{Binding DisplayProgressbar}"
                     IsIndeterminate="True" />
                 </StackPanel>
             </Button>
-            <Button  Margin="5"
+            <Button  Margin="5" Padding="5 5 10 5"
                 CommandParameter="{Binding ElementName=AddonsFiltered, Path=SelectedItems}"
                 Command="{Binding RemoveAddonsCommand}" ToolTip="Delete the selected addons. You can select multiple addons at a time by using Shift, CTRL or dragging the mouse.">
-                Uninstall Addons
+                <StackPanel Orientation="Horizontal">
+                    <materialDesign:PackIcon Kind="FolderRemove" Margin="0 0 5 0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Uninstall Addons" VerticalAlignment="Center"/>
+                </StackPanel>
             </Button>
         </StackPanel>
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="2" Kind="Search" Margin="5" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
         <TextBox materialDesign:HintAssist.Hint="Search by name" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"
             x:Name="SearchTerm" Grid.Row="1" Grid.Column="2"
             MinWidth="250" VerticalAlignment="Center" HorizontalAlignment="Right"/>
