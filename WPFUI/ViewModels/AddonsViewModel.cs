@@ -197,7 +197,7 @@ namespace WPFUI.ViewModels
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = true;
-            fileDialog.Title = "Select the addon zip archives or folders you want to install";
+            fileDialog.Title = "Select the addon zip archives you want to install";
 
 
             if (fileDialog.ShowDialog() == DialogResult.OK)

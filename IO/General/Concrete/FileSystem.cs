@@ -11,6 +11,43 @@ namespace IO.General.Concrete
 {
     class FileSystem : IFileSystem
     {
+        public void CopyDirectory(string source, string target)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(source);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + source);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!DirectoryExists(target))
+            {
+                Directory.CreateDirectory(target);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = Path.Combine(target, file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // copy subdirectories and their contents to new location.
+
+            foreach (DirectoryInfo subdir in dirs)
+            {
+                string temppath = Path.Combine(target, subdir.Name);
+                CopyDirectory(subdir.FullName, temppath);
+            }
+
+        }
+
         public void DeleteDirectory(string directoryPath)
         {
             if (DirectoryExists(directoryPath))
