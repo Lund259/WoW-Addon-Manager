@@ -75,7 +75,7 @@ namespace IO.Addons.Controller.Concrete
             {
                 if (fileSystem.DirectoryExists(addonPath))
                 {
-                    fileSystem.MoveDirectory(addonPath, tempAddonPath);
+                    fileSystem.CopyDirectory(addonPath, tempAddonPath);
                 }
                 else
                 {
