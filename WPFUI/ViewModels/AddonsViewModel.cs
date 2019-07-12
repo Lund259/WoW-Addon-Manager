@@ -196,13 +196,13 @@ namespace WPFUI.ViewModels
         public async void InstallAddonButton()
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
-            fileDialog.Multiselect = false;
-            fileDialog.Title = "Select the addon Zip archive you want to install";
+            fileDialog.Multiselect = true;
+            fileDialog.Title = "Select the addon zip archives or folders you want to install";
 
 
             if (fileDialog.ShowDialog() == DialogResult.OK)
             {
-                await InstallAddon(fileDialog.FileName);
+                await InstallAddon(fileDialog.FileNames);
             }
 
         }
@@ -211,7 +211,7 @@ namespace WPFUI.ViewModels
         //If another addon is currently being installed, notify the user and do nothing
         //Reload addons when finished
         //If somethings goes wrong notify the user with the error (usually an invalid zip archive).
-        private async Task InstallAddon(string fileName)
+        private async Task InstallAddon(string[] fileNames)
         {
             if (DisplayProgressbar != "Collapsed")
             {
@@ -222,11 +222,12 @@ namespace WPFUI.ViewModels
             try
             {
                 DisplayProgressbar = "Visible";
-                await addonController.InstallAddon(fileName, settingsManager.AddonsFolder);
+                foreach(string fileName in fileNames)
+                    await addonController.InstallAddon(fileName, settingsManager.AddonsFolder);
 
                 LoadAddons();
 
-                DisplayNotification("Addon has been successfully installed");
+                DisplayNotification("Addons successfully installed");
             }
             catch (Exception ex)
             {
@@ -246,11 +247,9 @@ namespace WPFUI.ViewModels
 
         public async void FileDropped(DragEventArgs e)
         {
-            //It returns an array of strings that contains 1 element (even though you drop 2 elements).
-            string[] fileNames = (string[])e.Data.GetData("FileName");
-            string fileName = fileNames[0];
+            string[] fileNames = (string[])e.Data.GetData("FileDrop");
 
-            await InstallAddon(fileName);
+            await InstallAddon(fileNames);
         }
     }
 }
