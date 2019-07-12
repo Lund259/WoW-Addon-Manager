@@ -68,15 +68,25 @@ namespace IO.Addons.Controller.Concrete
             if (fileSystem.DirectoryExists(tempAddonPath))
                 fileSystem.DeleteDirectory(tempAddonPath);
 
+
+            //if the addonPath is a folder, copy it to the temp directory.
+            //if it is not a folder it should be a zip archive. Try to extract it.
             try
             {
-                await fileSystem.ExtractZipToPath(addonPath, tempAddonPath);
-                
+                if (fileSystem.DirectoryExists(addonPath))
+                {
+                    fileSystem.MoveDirectory(addonPath, tempAddonPath);
+                }
+                else
+                {
+                    await fileSystem.ExtractZipToPath(addonPath, tempAddonPath);
+                }
             }
             catch (Exception ex)
             {
-                throw new Exception($"The provided file {addonPath} is not a valid addon zip file", ex);
+                throw new Exception($"The provided file or folder {addonPath} is not a valid addon", ex);
             }
+
 
             try
             {
@@ -91,7 +101,7 @@ namespace IO.Addons.Controller.Concrete
                 fileSystem.DeleteDirectory(tempAddonPath);
 
                 if(!correctlyInstalled)
-                    throw new Exception("The provided file is not a valid addon");
+                    throw new Exception("The provided file or folder is not a valid addon");
             }
 
         }
