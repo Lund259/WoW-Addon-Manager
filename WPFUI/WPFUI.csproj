@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Models\Page.cs" />
     <Compile Include="ViewModels\AddonsViewModel.cs" />
+    <Compile Include="ViewModels\ChangelogViewModel.cs" />
     <Compile Include="ViewModels\Domain\Concrete\Command.cs" />
     <Compile Include="ViewModels\Domain\Concrete\LocalSettingsManager.cs" />
     <Compile Include="ViewModels\Domain\DomainFactory.cs" />
@@ -129,6 +130,9 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\AddonsView.xaml.cs">
       <DependentUpon>AddonsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangelogView.xaml.cs">
+      <DependentUpon>ChangelogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPrompt.xaml.cs">
       <DependentUpon>SettingsPrompt.xaml</DependentUpon>
@@ -171,6 +175,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\AddonsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangelogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
