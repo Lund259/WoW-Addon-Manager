@@ -120,6 +120,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\VersionLog.cs" />
     <Compile Include="ViewModels\AddonsViewModel.cs" />
     <Compile Include="ViewModels\ChangelogViewModel.cs" />
     <Compile Include="ViewModels\Domain\Concrete\Command.cs" />
