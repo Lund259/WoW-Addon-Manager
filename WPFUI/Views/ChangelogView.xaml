@@ -29,30 +29,31 @@
 
         <!-- Row 1 -->
 
-        <ListView x:Name="ChangeLog" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"  >
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="ChangeLog" Margin="10">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center"
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0" Style="{StaticResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Center"
                             Text="{Binding Path=Title}" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center"
+                            <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center"
                             Text="{Binding Path=Description}" />
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
+        </ScrollViewer>
     </Grid>
 </UserControl>

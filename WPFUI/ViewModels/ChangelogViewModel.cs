@@ -36,8 +36,15 @@ namespace WPFUI.ViewModels
         {
             string result = "";
 
-            using(WebClient client = new WebClient())
-                result = client.DownloadString("https://raw.githubusercontent.com/Lund259/WoW-Addon-Manager/Development/CHANGELOG.md");
+            try
+            {
+                using (WebClient client = new WebClient())
+                    result = client.DownloadString("https://raw.githubusercontent.com/Lund259/WoW-Addon-Manager/master/CHANGELOG.md");
+
+            }
+            catch (Exception)
+            {
+            }
 
             return result;
         }
