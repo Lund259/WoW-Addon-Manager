@@ -76,9 +76,15 @@
         <DataGrid x:Name="AddonsFiltered" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2"
                   AutoGenerateColumns="False" HeadersVisibility="Column" IsReadOnly="True" SelectionMode="Extended"
                   CanUserAddRows="False" CanUserDeleteRows="False" SelectionUnit="FullRow">
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <!-- Update from comments.
+                 Remove the focus indication for the selected cell -->
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                </Style>
+            </DataGrid.CellStyle>
 
-
-            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" />
                 <DataGridTextColumn Header="Author" Binding="{Binding Path=Author}" Width="150"/>
