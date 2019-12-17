@@ -3,6 +3,8 @@ This is an application that makes it easy to manage Addons in all versions of Wo
 
 I created this application as a fun way to learn about WPF and Caliburn Micro mvvm pattern. I have no idea if this application will be useful to anyone, but as i have found it very useful while using it myself, i am now releasing it for everyone to use and contribute to.
 
+It is not the prettiest best-practise code, as it has no tests and no dependency injection. This is because i had no intention of developing the application this far and actually releasing it, i just meant for it to be a quick and dirty application for myself to use. 
+
 What the application currently does:
 
 - Displays list of all installed addons with Title, Author, WoW version it was developed for, Website and description
