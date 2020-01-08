@@ -3,3 +3,10 @@
 [Update]
 Name = WoW Addon Manager
 ProductVersion = 0.2.0.0
+URL = http://www.example.com/downloads/WoW Addon Manager.exe
+Size = 87040
+SHA256 = 5589074DC157B3BFEBC05A3BC97B82AC0AFB1274650F6AFA4425F0F53A141020
+MD5 = 72297621a3f2c16d3855d7390573d87e
+ServerFileName = WoW Addon Manager.exe
+RegistryKey = HKUD\Software\Jonathan Lund\WoW Addon Manager\Version
+Version = 0.2.0.0
